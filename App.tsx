@@ -18,17 +18,22 @@ const App = () => {
       }
       setTodos([...Todos, todoItem])
       setTodoInput('')
+
     }
+  }
+
+  const deleteTodo = (index: number) => {
+    setTodos(prev => prev.filter((item, idx) => idx !== index))
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Todo List </Text>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} onChangeText={text => setTodoInput(text)} />
+        <TextInput style={styles.input} value={todoInput} onChangeText={text => setTodoInput(text)} />
         <TouchableOpacity style={styles.addTaskBtn} onPress={handleSubmit}><Text style={styles.addTodoBtnText}>Add Task</Text></TouchableOpacity>
       </View>
-        <FlatList data={Todos} renderItem={({ item }) => <TodoList text={item.text} />} />
+      <FlatList data={Todos} renderItem={({ item,index }) => <TodoList todoId={index} text={item.text} deleteTodo={deleteTodo} />} />
     </View>
   )
 }
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15
   }
-  
+
 
 })
 // import React from 'react';
